@@ -21446,7 +21446,7 @@
 	        return {
 	            lists: [{
 	                title: 'Processors',
-	                cards: ['i3', 'i5', 'i7']
+	                cards: ['i3', 'i5', 'i7', 'test']
 	
 	            }, {
 	                title: 'Video Cards',
@@ -21457,13 +21457,12 @@
 	
 	    renderLists: function renderLists() {
 	        var lists = [];
+	        console.log(this.state);
 	        for (var i = 0; i < this.state.lists.length; i++) {
 	            lists.push(React.createElement(List, {
 	                title: this.state.lists[i].title,
 	                cards: this.state.lists[i].cards,
-	                key: i,
-	                onAddInputChanged: this.onAddInputChanged,
-	                onAddSubmit: this.onAddSubmit
+	                key: i
 	            }));
 	        }
 	        return lists;
@@ -21478,18 +21477,18 @@
 	                null,
 	                'Board'
 	            ),
-	            React.createElement(ListContainer, null)
+	            this.renderLists()
 	        );
-	    },
-	
-	    onAddInputChanged: function onAddInputChanged(event) {
-	        console.log('ithappened');
-	    },
-	
-	    onAddSubmit: function onAddSubmit(event) {
-	        event.preventDefault();
-	        console.log('hallo');
 	    }
+	
+	    // onAddInputChanged: function(event) {
+	    //     console.log('ithappened')
+	    // },
+	
+	    // onAddSubmit: function(event) {
+	    //     event.preventDefault();
+	    //     console.log('hallo')
+	    // }
 	});
 	
 	module.exports = Board;
@@ -21608,14 +21607,24 @@
 	    getInitialState: function getInitialState() {
 	        return {
 	            text: "",
-	            cards: []
+	            cards: [],
+	            lists: [{
+	                title: 'Processors',
+	                cards: ['i3', 'i5', 'i7']
+	
+	            }, {
+	                title: 'Video Cards',
+	                cards: ['GTX1070', 'GTX1080']
+	            }]
 	        };
 	    },
 	    render: function render() {
 	        return React.createElement(List, {
+	            title: this.state.lists[i].title,
 	            cards: this.state.cards,
 	            onAddInputChanged: this.onAddInputChanged,
-	            onAddSubmit: this.onAddSubmit
+	            onAddSubmit: this.onAddSubmit,
+	            lists: this.state.lists
 	        });
 	    },
 	
@@ -21629,7 +21638,6 @@
 	        event.preventDefault();
 	        this.state.cards.push(this.state.text);
 	        document.getElementById("textInput").value = "";
-	        this.render();
 	        console.log(this.state.cards);
 	    }
 	});

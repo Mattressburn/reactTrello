@@ -11,7 +11,7 @@ var Board = React.createClass({
             lists: [
                 {
                     title:'Processors', 
-                    cards: ['i3', 'i5', 'i7']
+                    cards: ['i3', 'i5', 'i7','test']
                     
                 },
                 {
@@ -24,14 +24,13 @@ var Board = React.createClass({
     
     renderLists: function() {
         var lists = [];
+        console.log(this.state)
         for (var i=0; i<this.state.lists.length; i++) {
             lists.push(
-                <List 
+                <List
                     title = {this.state.lists[i].title} 
                     cards={this.state.lists[i].cards} 
                     key={i} 
-                    onAddInputChanged = {this.onAddInputChanged}
-                    onAddSubmit = {this.onAddSubmit}
                 />
             );
         }
@@ -43,19 +42,19 @@ var Board = React.createClass({
         return (
             <div className="card-board">
                 <h1>Board</h1>
-                <ListContainer />
+                {this.renderLists()}
             </div> 
             );
-    },
-    
-    onAddInputChanged: function(event) {
-        console.log('ithappened')
-    },
-    
-    onAddSubmit: function(event) {
-        event.preventDefault();
-        console.log('hallo')
     }
+    
+    // onAddInputChanged: function(event) {
+    //     console.log('ithappened')
+    // },
+    
+    // onAddSubmit: function(event) {
+    //     event.preventDefault();
+    //     console.log('hallo')
+    // }
 });
 
 
