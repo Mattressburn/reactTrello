@@ -1,14 +1,11 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
 
-var Card = React.createClass({
-    render: function(props) {
-       return (
-        <div className="card">
-            {this.props.text}
-        </div>   
-        )
-    }
-})
+var Card = function(props) {
+    var text = props.text;
+    
+    return(
+        <div>{text}</div> //could this be <p> instead of <div>?
+    );
+};
 
 module.exports = Card;

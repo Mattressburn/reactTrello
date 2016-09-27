@@ -21437,6 +21437,7 @@
 	
 	var List = __webpack_require__(173);
 	var Card = __webpack_require__(174);
+	var ListContainer = __webpack_require__(175);
 	
 	var Board = React.createClass({
 	    displayName: 'Board',
@@ -21475,9 +21476,9 @@
 	            React.createElement(
 	                'h1',
 	                null,
-	                '"Board"'
+	                'Board'
 	            ),
-	            this.renderLists()
+	            React.createElement(ListContainer, null)
 	        );
 	    },
 	
@@ -21507,6 +21508,13 @@
 	var List = React.createClass({
 	    displayName: 'List',
 	
+	    getInitialState: function getInitialState() {
+	        return {
+	            text: "",
+	            cards: []
+	        };
+	    },
+	
 	    render: function render() {
 	        return React.createElement(
 	            'section',
@@ -21532,6 +21540,7 @@
 	                null,
 	                React.createElement('input', {
 	                    type: 'text',
+	                    id: 'textInput',
 	                    onChange: this.props.onAddInputChanged }),
 	                React.createElement('input', {
 	                    type: 'submit',
@@ -21569,21 +21578,63 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(34);
 	
-	var Card = React.createClass({
-	    displayName: 'Card',
+	var Card = function Card(props) {
+	    var text = props.text;
 	
-	    render: function render(props) {
-	        return React.createElement(
-	            'div',
-	            { className: 'card' },
-	            this.props.text
-	        );
+	    return React.createElement(
+	        'div',
+	        null,
+	        text
+	    ) //could this be <p> instead of <div>?
+	    ;
+	};
+	
+	module.exports = Card;
+
+/***/ },
+/* 175 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var List = __webpack_require__(173);
+	var Card = __webpack_require__(174);
+	
+	var ListContainer = React.createClass({
+	    displayName: 'ListContainer',
+	
+	    getInitialState: function getInitialState() {
+	        return {
+	            text: "",
+	            cards: []
+	        };
+	    },
+	    render: function render() {
+	        return React.createElement(List, {
+	            cards: this.state.cards,
+	            onAddInputChanged: this.onAddInputChanged,
+	            onAddSubmit: this.onAddSubmit
+	        });
+	    },
+	
+	    onAddInputChanged: function onAddInputChanged(event) {
+	        console.log(document.getElementById("textInput").value);
+	        this.state.text = document.getElementById("textInput").value;
+	        console.log(this.state.text);
+	    },
+	
+	    onAddSubmit: function onAddSubmit(event) {
+	        event.preventDefault();
+	        this.state.cards.push(this.state.text);
+	        document.getElementById("textInput").value = "";
+	        this.render();
+	        console.log(this.state.cards);
 	    }
 	});
 	
-	module.exports = Card;
+	module.exports = ListContainer;
 
 /***/ }
 /******/ ]);

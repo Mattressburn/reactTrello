@@ -3,7 +3,7 @@ var ReactDOM = require('react-dom');
 
 var List = require("./list");
 var Card = require("./card")
-
+var ListContainer = require("./listContainer")
 
 var Board = React.createClass({
     getInitialState: function() {
@@ -42,8 +42,8 @@ var Board = React.createClass({
     render: function() {
         return (
             <div className="card-board">
-                <h1>"Board"</h1>
-                {this.renderLists()}             
+                <h1>Board</h1>
+                <ListContainer />
             </div> 
             );
     },

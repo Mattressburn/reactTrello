@@ -5,6 +5,13 @@ var Card = require("./card");
 
 
 var List = React.createClass({
+   getInitialState: function() {
+       return {
+           text: "",
+           cards: []
+       };
+   },
+   
    render: function() {
        return (
            <section className="list">
@@ -16,7 +23,8 @@ var List = React.createClass({
                 </div>
                 <form> 
                     <input 
-                        type = "text" 
+                        type = "text"
+                        id = "textInput"
                         onChange={this.props.onAddInputChanged}>
                     </input>
                     <input 
