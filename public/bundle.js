@@ -21457,7 +21457,13 @@
 	    renderLists: function renderLists() {
 	        var lists = [];
 	        for (var i = 0; i < this.state.lists.length; i++) {
-	            lists.push(React.createElement(List, { title: this.state.lists[i].title, cards: this.state.lists[i].cards, key: i }));
+	            lists.push(React.createElement(List, {
+	                title: this.state.lists[i].title,
+	                cards: this.state.lists[i].cards,
+	                key: i,
+	                onAddInputChanged: this.onAddInputChanged,
+	                onAddSubmit: this.onAddSubmit
+	            }));
 	        }
 	        return lists;
 	    },
@@ -21473,6 +21479,15 @@
 	            ),
 	            this.renderLists()
 	        );
+	    },
+	
+	    onAddInputChanged: function onAddInputChanged(event) {
+	        console.log('ithappened');
+	    },
+	
+	    onAddSubmit: function onAddSubmit(event) {
+	        event.preventDefault();
+	        console.log('hallo');
 	    }
 	});
 	
@@ -21489,31 +21504,44 @@
 	
 	var Card = __webpack_require__(174);
 	
-	var List = function List(props) {
-	    var title = props.title;
-	    var cards = props.cards;
+	var List = React.createClass({
+	    displayName: 'List',
 	
-	    return React.createElement(
-	        'section',
-	        { className: 'list' },
-	        React.createElement(
-	            'h2',
-	            null,
-	            title
-	        ),
-	        React.createElement(
-	            'div',
-	            { className: 'cards' },
-	            cards.map(function (card, index) {
-	                return React.createElement(
-	                    'div',
-	                    { key: index },
-	                    card
-	                );
-	            })
-	        )
-	    );
-	};
+	    render: function render() {
+	        return React.createElement(
+	            'section',
+	            { className: 'list' },
+	            React.createElement(
+	                'h2',
+	                null,
+	                this.props.title
+	            ),
+	            React.createElement(
+	                'div',
+	                { className: 'cards' },
+	                this.props.cards.map(function (card, index) {
+	                    return React.createElement(
+	                        'div',
+	                        { key: index },
+	                        card
+	                    );
+	                })
+	            ),
+	            React.createElement(
+	                'form',
+	                null,
+	                React.createElement('input', {
+	                    type: 'text',
+	                    onChange: this.props.onAddInputChanged }),
+	                React.createElement('input', {
+	                    type: 'submit',
+	                    onClick: this.props.onAddSubmit })
+	            )
+	        );
+	    }
+	});
+	
+	//
 	
 	module.exports = List;
 	

@@ -4,19 +4,34 @@ var ReactDOM = require('react-dom');
 var Card = require("./card");
 
 
-var List = function(props) {
-    var title = props.title;
-    var cards = props.cards;
-    
-    return (
-        <section className="list">
-            <h2>{title}</h2>
-            <div className ="cards">
-                {cards.map(function(card,index) { return <div key={index}>{card}</div> })}
-            </div>
-        </section>
-    );
-}
+var List = React.createClass({
+   render: function() {
+       return (
+           <section className="list">
+                <h2>{this.props.title}</h2>
+                <div className ="cards">
+                    {this.props.cards.map(function(card,index) { 
+                        return <div key={index}>{card}</div> 
+                    })}
+                </div>
+                <form> 
+                    <input 
+                        type = "text" 
+                        onChange={this.props.onAddInputChanged}>
+                    </input>
+                    <input 
+                        type="submit"
+                        onClick = {this.props.onAddSubmit}>
+                    </input>
+                </form>
+            </section>
+           )
+   }
+});
+
+
+
+//
 
 module.exports = List;
 

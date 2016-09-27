@@ -25,7 +25,15 @@ var Board = React.createClass({
     renderLists: function() {
         var lists = [];
         for (var i=0; i<this.state.lists.length; i++) {
-            lists.push(<List title = {this.state.lists[i].title} cards={this.state.lists[i].cards} key={i} />);
+            lists.push(
+                <List 
+                    title = {this.state.lists[i].title} 
+                    cards={this.state.lists[i].cards} 
+                    key={i} 
+                    onAddInputChanged = {this.onAddInputChanged}
+                    onAddSubmit = {this.onAddSubmit}
+                />
+            );
         }
             return lists;
     },
@@ -38,6 +46,15 @@ var Board = React.createClass({
                 {this.renderLists()}             
             </div> 
             );
+    },
+    
+    onAddInputChanged: function(event) {
+        console.log('ithappened')
+    },
+    
+    onAddSubmit: function(event) {
+        event.preventDefault();
+        console.log('hallo')
     }
 });
 
