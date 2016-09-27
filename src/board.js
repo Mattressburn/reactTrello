@@ -3,44 +3,46 @@ var ReactDOM = require('react-dom');
 
 var List = require("./list");
 var Card = require("./card")
+
+
 var Board = React.createClass({
-    render: function(props) {
-        var lists = []
-        for (var i=0; i<3; i++) {
-            lists.push(<List />);
+    getInitialState: function() {
+        return {
+            lists: [
+                {
+                    title:'Processors', 
+                    cards: ['i3', 'i5', 'i7']
+                    
+                },
+                {
+                    title:'Video Cards', 
+                    cards: ['GTX1070', 'GTX1080']
+                }
+            ]
+        };
+    },
+    
+    renderLists: function() {
+        var lists = [];
+        for (var i=0; i<this.state.lists.length; i++) {
+            lists.push(<List title = {this.state.lists[i].title} cards={this.state.lists[i].cards} key={i} />);
         }
-        var listNames = ['1st', '2nd', '3rd']
+            return lists;
+    },
+        
+    
+    render: function() {
         return (
-            <div className="board">
-                <div className ='boardName'>
-                    {this.props.title}
-                </div>
-                <div className = 'list'>
-                    {this.props.lists}
-                    <List title = {listNames[0]}/>
-                    <Card text = {"cardText"}/>
-                </div>
-                <div className = 'list'>
-                    {this.props.lists}
-                   <List title = {listNames[1]} />
-                   <Card text = {"cardText"}/>
-                </div>
-                <div className = 'list'>
-                    {this.props.lists}
-                    <List title = {listNames[2]} />
-                    <Card text = {"cardText"}/>
-                </div>
-            </div>    
+            <div className="card-board">
+                <h1>"Board"</h1>
+                {this.renderLists()}             
+            </div> 
             );
     }
 });
 
-var BoardList = function() {
-    return (
-        <div className ='board-list'>
-            <Board title = 'Board 1'/>
-        </div>
-        );     
-};
+
     
-module.exports = BoardList;
+module.exports = Board;
+
+

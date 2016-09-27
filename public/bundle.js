@@ -49,72 +49,15 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(34);
 	
-	var BoardList = __webpack_require__(172);
-	
-	var Person = React.createClass({
-	    displayName: 'Person',
-	
-	    getInitialState: function getInitialState() {
-	        return {
-	            highlight: false
-	        };
-	    },
-	    onClick: function onClick() {
-	        this.setState({
-	            highlight: !this.state.highlight
-	        });
-	    },
-	    render: function render() {
-	        var classes = 'person ' + (this.state.highlight ? 'highlight' : '');
-	        return React.createElement(
-	            'div',
-	            { className: classes, onClick: this.onClick },
-	            React.createElement(
-	                'div',
-	                { className: 'person-name' },
-	                this.props.name
-	            ),
-	            React.createElement('img', { className: 'person-img', src: this.props.imageUrl }),
-	            React.createElement(
-	                'div',
-	                { className: 'person-job' },
-	                this.props.job
-	            )
-	        );
-	    }
-	});
-	
-	Person.defaultProps = {
-	    imagueUrl: "http://www.gravatar.com/avatar/?d=identicon"
-	};
-	
-	var PersonList = React.createClass({
-	    displayName: 'PersonList',
-	
-	    render: function render() {
-	        var people = [];
-	        for (var i = 0; i < 5; i++) {
-	            people.push(React.createElement(Person, null));
-	        }
-	        return React.createElement(
-	            'div',
-	            { className: 'person-list' },
-	            React.createElement(Person, { name: 'Derek Zoolander',
-	                imageUrl: 'http://uifaces.com/assets/static/images/zoolander.jpg',
-	                job: 'Male model' }),
-	            React.createElement(Person, { name: 'Donald Knuth',
-	                imageUrl: 'http://www-cs-faculty.stanford.edu/~uno/don.gif',
-	                job: 'Clever chap' })
-	        );
-	    }
-	});
+	var Board = __webpack_require__(172);
 	
 	// document.addEventListener('DOMContentLoaded', function() {
 	//     ReactDOM.render(<Board />, document.getElementById('app'));
 	// });
-	var listNames = ['name1', 'name2', 'name3'];
+	
+	
 	document.addEventListener('DOMContentLoaded', function () {
-	    ReactDOM.render(React.createElement(BoardList, null), document.getElementById('app'));
+	    ReactDOM.render(React.createElement(Board, null), document.getElementById('app'));
 	});
 
 /***/ },
@@ -21494,57 +21437,46 @@
 	
 	var List = __webpack_require__(173);
 	var Card = __webpack_require__(174);
+	
 	var Board = React.createClass({
 	    displayName: 'Board',
 	
-	    render: function render(props) {
+	    getInitialState: function getInitialState() {
+	        return {
+	            lists: [{
+	                title: 'Processors',
+	                cards: ['i3', 'i5', 'i7']
+	
+	            }, {
+	                title: 'Video Cards',
+	                cards: ['GTX1070', 'GTX1080']
+	            }]
+	        };
+	    },
+	
+	    renderLists: function renderLists() {
 	        var lists = [];
-	        for (var i = 0; i < 3; i++) {
-	            lists.push(React.createElement(List, null));
+	        for (var i = 0; i < this.state.lists.length; i++) {
+	            lists.push(React.createElement(List, { title: this.state.lists[i].title, cards: this.state.lists[i].cards, key: i }));
 	        }
-	        var listNames = ['1st', '2nd', '3rd'];
+	        return lists;
+	    },
+	
+	    render: function render() {
 	        return React.createElement(
 	            'div',
-	            { className: 'board' },
+	            { className: 'card-board' },
 	            React.createElement(
-	                'div',
-	                { className: 'boardName' },
-	                this.props.title
+	                'h1',
+	                null,
+	                '"Board"'
 	            ),
-	            React.createElement(
-	                'div',
-	                { className: 'list' },
-	                this.props.lists,
-	                React.createElement(List, { title: listNames[0] }),
-	                React.createElement(Card, { text: "cardText" })
-	            ),
-	            React.createElement(
-	                'div',
-	                { className: 'list' },
-	                this.props.lists,
-	                React.createElement(List, { title: listNames[1] }),
-	                React.createElement(Card, { text: "cardText" })
-	            ),
-	            React.createElement(
-	                'div',
-	                { className: 'list' },
-	                this.props.lists,
-	                React.createElement(List, { title: listNames[2] }),
-	                React.createElement(Card, { text: "cardText" })
-	            )
+	            this.renderLists()
 	        );
 	    }
 	});
 	
-	var BoardList = function BoardList() {
-	    return React.createElement(
-	        'div',
-	        { className: 'board-list' },
-	        React.createElement(Board, { title: 'Board 1' })
-	    );
-	};
-	
-	module.exports = BoardList;
+	module.exports = Board;
 
 /***/ },
 /* 173 */
@@ -21557,32 +21489,50 @@
 	
 	var Card = __webpack_require__(174);
 	
-	var List = React.createClass({
-	    displayName: 'List',
+	var List = function List(props) {
+	    var title = props.title;
+	    var cards = props.cards;
 	
-	    render: function render() {
-	        var cards = [];
-	        for (var i = 0; i < 3; i++) {
-	            cards.push(React.createElement(Card, null));
-	        }
-	        return React.createElement(
+	    return React.createElement(
+	        'section',
+	        { className: 'list' },
+	        React.createElement(
+	            'h2',
+	            null,
+	            title
+	        ),
+	        React.createElement(
 	            'div',
-	            { className: 'card-list' },
-	            React.createElement(
-	                'div',
-	                { className: 'card-title' },
-	                this.props.title
-	            ),
-	            React.createElement(
-	                'div',
-	                { className: 'cards' },
-	                this.props.cards
-	            )
-	        );
-	    }
-	});
+	            { className: 'cards' },
+	            cards.map(function (card, index) {
+	                return React.createElement(
+	                    'div',
+	                    { key: index },
+	                    card
+	                );
+	            })
+	        )
+	    );
+	};
 	
 	module.exports = List;
+	
+	// React.createClass({
+	//     render: function(props) {
+	//         var cards = [];
+	//          console.log(this.state.lists)    
+	//         for (var i=0; i<props.cards.length ; i++) {
+	//             cards.push(<Card text={props.cards[i]} key={i} />)
+	//         }
+	
+	//     return (
+	//         <div className="card-list">
+	//             <h2>{this.props.title}</h2>
+	//             <p>{cards}</p>
+	//         </div>
+	//         );
+	//     }
+	// });
 
 /***/ },
 /* 174 */
