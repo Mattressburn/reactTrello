@@ -7,29 +7,31 @@ var ListContainer = require("./listContainer")
 
 var Board = React.createClass({
     getInitialState: function() {
-        return {
-            lists: [
+       return {
+           text: "",
+           cards: this.props.cards,
+           lists: [
                 {
                     title:'Processors', 
-                    cards: ['i3', 'i5', 'i7','test']
+                    cards: ['i3', 'i5', 'i7']
                     
                 },
                 {
                     title:'Video Cards', 
                     cards: ['GTX1070', 'GTX1080']
                 }
-            ]
-        };
-    },
-    
+            ],
+            rendered : ''            
+       };
+   },
     renderLists: function() {
         var lists = [];
         console.log(this.state)
         for (var i=0; i<this.state.lists.length; i++) {
             lists.push(
                 <ListContainer
-                    title = {this.props.title} 
-                    cards={this.props.cards} 
+                    title = {this.state.lists[i].title} 
+                    cards={this.state.lists[i].cards} 
                     key={i} 
                 />
             );
@@ -42,19 +44,10 @@ var Board = React.createClass({
         return (
             <div className="card-board">
                 <h1>Board</h1>
-                <ListContainer />
+               {this.renderLists()}
             </div> 
             );
     }
-    
-    // onAddInputChanged: function(event) {
-    //     console.log('ithappened')
-    // },
-    
-    // onAddSubmit: function(event) {
-    //     event.preventDefault();
-    //     console.log('hallo')
-    // }
 });
 
 

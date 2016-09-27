@@ -18,23 +18,37 @@ var List = React.createClass({
                 <h2>{this.props.title}</h2>
                 <div className ="cards">
                     {this.props.cards.map(function(card,index) { 
-                        return <div key={index}>{card}</div> 
+                        return <Card key={index} text={card} />; 
                     })}
                 </div>
                 <form> 
                     <input 
                         type = "text"
                         id = "textInput"
-                        onChange={this.props.onAddInputChanged}>
+                        placeholder = "Enter card text"
+                        ref='cardref'
+                        onChange={this.onAddInputChanged}>
                     </input>
                     <input 
                         type="submit"
-                        onClick = {this.props.onAddSubmit}>
+                        onClick = {this.onAddSubmit}>
                     </input>
                 </form>
             </section>
            )
-   }
+   },
+   
+   onAddInputChanged: function(event) {
+        console.log(document.getElementById("textInput").value);
+        this.state.text = document.getElementById("textInput").value;
+        console.log(this.state.text)
+    },
+    
+    onAddSubmit: function(event) {
+        event.preventDefault();
+       this.props.onAddCard(this.refs.cardref.value);
+       this.refs.cardref.value ="";
+    }
 });
 
 

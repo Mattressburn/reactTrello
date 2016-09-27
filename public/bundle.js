@@ -21444,24 +21444,26 @@
 	
 	    getInitialState: function getInitialState() {
 	        return {
+	            text: "",
+	            cards: this.props.cards,
 	            lists: [{
 	                title: 'Processors',
-	                cards: ['i3', 'i5', 'i7', 'test']
+	                cards: ['i3', 'i5', 'i7']
 	
 	            }, {
 	                title: 'Video Cards',
 	                cards: ['GTX1070', 'GTX1080']
-	            }]
+	            }],
+	            rendered: ''
 	        };
 	    },
-	
 	    renderLists: function renderLists() {
 	        var lists = [];
 	        console.log(this.state);
 	        for (var i = 0; i < this.state.lists.length; i++) {
 	            lists.push(React.createElement(ListContainer, {
-	                title: this.props.title,
-	                cards: this.props.cards,
+	                title: this.state.lists[i].title,
+	                cards: this.state.lists[i].cards,
 	                key: i
 	            }));
 	        }
@@ -21477,18 +21479,9 @@
 	                null,
 	                'Board'
 	            ),
-	            React.createElement(ListContainer, null)
+	            this.renderLists()
 	        );
 	    }
-	
-	    // onAddInputChanged: function(event) {
-	    //     console.log('ithappened')
-	    // },
-	
-	    // onAddSubmit: function(event) {
-	    //     event.preventDefault();
-	    //     console.log('hallo')
-	    // }
 	});
 	
 	module.exports = Board;
@@ -21527,11 +21520,7 @@
 	                'div',
 	                { className: 'cards' },
 	                this.props.cards.map(function (card, index) {
-	                    return React.createElement(
-	                        'div',
-	                        { key: index },
-	                        card
-	                    );
+	                    return React.createElement(Card, { key: index, text: card });
 	                })
 	            ),
 	            React.createElement(
@@ -21540,12 +21529,26 @@
 	                React.createElement('input', {
 	                    type: 'text',
 	                    id: 'textInput',
-	                    onChange: this.props.onAddInputChanged }),
+	                    placeholder: 'Enter card text',
+	                    ref: 'cardref',
+	                    onChange: this.onAddInputChanged }),
 	                React.createElement('input', {
 	                    type: 'submit',
-	                    onClick: this.props.onAddSubmit })
+	                    onClick: this.onAddSubmit })
 	            )
 	        );
+	    },
+	
+	    onAddInputChanged: function onAddInputChanged(event) {
+	        console.log(document.getElementById("textInput").value);
+	        this.state.text = document.getElementById("textInput").value;
+	        console.log(this.state.text);
+	    },
+	
+	    onAddSubmit: function onAddSubmit(event) {
+	        event.preventDefault();
+	        this.props.onAddCard(this.refs.cardref.value);
+	        this.refs.cardref.value = "";
 	    }
 	});
 	
@@ -21607,53 +21610,20 @@
 	    getInitialState: function getInitialState() {
 	        return {
 	            text: "",
-	            cards: [],
-	            lists: [{
-	                title: 'Processors',
-	                cards: ['i3', 'i5', 'i7']
-	
-	            }, {
-	                title: 'Video Cards',
-	                cards: ['GTX1070', 'GTX1080']
-	            }]
+	            cards: this.props.cards
 	        };
 	    },
-	
-	    renderLists: function renderLists() {
-	        var lists = [];
-	        console.log(this.state);
-	        for (var i = 0; i < this.state.lists.length; i++) {
-	            lists.push(React.createElement(List, {
-	                title: this.state.lists[i].title,
-	                cards: this.state.lists[i].cards,
-	                key: i,
-	                onAddInputChanged: this.onAddInputChanged,
-	                onAddSubmit: this.onAddSubmit
-	            }));
-	        }
-	        return lists;
-	    },
-	
 	    render: function render() {
-	        //console.log(this.state.lists)
-	        return React.createElement(
-	            'div',
-	            null,
-	            this.renderLists()
-	        );
+	        return React.createElement(List, {
+	            title: this.props.title,
+	            cards: this.state.cards,
+	            onAddCard: this.onAddCard
+	        });
 	    },
-	
-	    onAddInputChanged: function onAddInputChanged(event) {
-	        console.log(document.getElementById("textInput").value);
-	        this.state.text = document.getElementById("textInput").value;
-	        console.log(this.state.text);
-	    },
-	
-	    onAddSubmit: function onAddSubmit(event) {
-	        event.preventDefault();
-	        this.state.cards.push(this.state.text);
-	        document.getElementById("textInput").value = "";
-	        console.log(this.state.cards);
+	    onAddCard: function onAddCard(cardText) {
+	        this.setState({
+	            cards: this.state.cards.concat(cardText)
+	        });
 	    }
 	});
 	
