@@ -20,15 +20,31 @@ var ListContainer = React.createClass({
             ]
        };
    },
+   
+   renderLists: function() {
+        var lists = [];
+        console.log(this.state)
+        for (var i=0; i<this.state.lists.length; i++) {
+            lists.push(
+                <List
+                    title = {this.state.lists[i].title} 
+                    cards={this.state.lists[i].cards} 
+                    key={i}
+                    onAddInputChanged = {this.onAddInputChanged}
+                    onAddSubmit = {this.onAddSubmit}
+                />
+            );
+        }
+            return lists;
+    },
+   
+   
    render: function() {
+       //console.log(this.state.lists)
        return (
-            <List
-                title = {this.state.lists[i].title}
-                cards = {this.state.cards}
-                onAddInputChanged = {this.onAddInputChanged}
-                onAddSubmit = {this.onAddSubmit}
-                lists = {this.state.lists}
-            />
+           <div>
+                {this.renderLists()}
+            </div>
         )
    },
    

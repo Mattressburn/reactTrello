@@ -21459,9 +21459,9 @@
 	        var lists = [];
 	        console.log(this.state);
 	        for (var i = 0; i < this.state.lists.length; i++) {
-	            lists.push(React.createElement(List, {
-	                title: this.state.lists[i].title,
-	                cards: this.state.lists[i].cards,
+	            lists.push(React.createElement(ListContainer, {
+	                title: this.props.title,
+	                cards: this.props.cards,
 	                key: i
 	            }));
 	        }
@@ -21477,7 +21477,7 @@
 	                null,
 	                'Board'
 	            ),
-	            this.renderLists()
+	            React.createElement(ListContainer, null)
 	        );
 	    }
 	
@@ -21618,14 +21618,29 @@
 	            }]
 	        };
 	    },
+	
+	    renderLists: function renderLists() {
+	        var lists = [];
+	        console.log(this.state);
+	        for (var i = 0; i < this.state.lists.length; i++) {
+	            lists.push(React.createElement(List, {
+	                title: this.state.lists[i].title,
+	                cards: this.state.lists[i].cards,
+	                key: i,
+	                onAddInputChanged: this.onAddInputChanged,
+	                onAddSubmit: this.onAddSubmit
+	            }));
+	        }
+	        return lists;
+	    },
+	
 	    render: function render() {
-	        return React.createElement(List, {
-	            title: this.state.lists[i].title,
-	            cards: this.state.cards,
-	            onAddInputChanged: this.onAddInputChanged,
-	            onAddSubmit: this.onAddSubmit,
-	            lists: this.state.lists
-	        });
+	        //console.log(this.state.lists)
+	        return React.createElement(
+	            'div',
+	            null,
+	            this.renderLists()
+	        );
 	    },
 	
 	    onAddInputChanged: function onAddInputChanged(event) {

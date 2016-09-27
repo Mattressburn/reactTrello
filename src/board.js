@@ -27,9 +27,9 @@ var Board = React.createClass({
         console.log(this.state)
         for (var i=0; i<this.state.lists.length; i++) {
             lists.push(
-                <List
-                    title = {this.state.lists[i].title} 
-                    cards={this.state.lists[i].cards} 
+                <ListContainer
+                    title = {this.props.title} 
+                    cards={this.props.cards} 
                     key={i} 
                 />
             );
@@ -42,7 +42,7 @@ var Board = React.createClass({
         return (
             <div className="card-board">
                 <h1>Board</h1>
-                {this.renderLists()}
+                <ListContainer />
             </div> 
             );
     }
